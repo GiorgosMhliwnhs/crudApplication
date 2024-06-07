@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using peripatoiCrud.API.Data;
 using peripatoiCrud.API.Models.Domain;
 using peripatoiCrud.API.Models.DTOs;
@@ -21,9 +22,9 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/perioxes
         //Ληψη ολων των περιοχων
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var perioxesDomain = dbContext.Perioxes.ToList();
+            var perioxesDomain = await dbContext.Perioxes.ToListAsync();
 
             var perioxesDto = new List<PerioxhDto>();
             //εδω κανουμε το map απο μοντελο σε dto, η αλλαγη εγινε γιατι ειναι best practice να εμφανιζουμε τα δεδομενα απο το dto παρα κατευθειαν τα μοντελα
@@ -45,9 +46,9 @@ namespace peripatoiCrud.API.Controllers
         //Ληψη συγκεκριμενης περιοχης βαση του id της
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var perioxhDomain = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
+            var perioxhDomain = await dbContext.Perioxes.FirstOrDefaultAsync(x => x.Id == id);
 
             if (perioxhDomain == null) //ελεγχος εαν υπαρχει στη βαση, στην περιπτωση που δεν υπαρχει επιστρεφουμε 404
             {
@@ -69,7 +70,7 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/perioxes/
         //Δημιουργια περιοχης
         [HttpPost]
-        public IActionResult Create([FromBody] AddPerioxhRequestDto addPerioxhRequestDto)
+        public async Task<IActionResult> Create([FromBody] AddPerioxhRequestDto addPerioxhRequestDto)
         {
             var perioxhDomainModel = new Perioxh
             {
@@ -78,8 +79,8 @@ namespace peripatoiCrud.API.Controllers
                 EikonaUrl = addPerioxhRequestDto.EikonaUrl
             };
 
-            dbContext.Perioxes.Add(perioxhDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.Perioxes.AddAsync(perioxhDomainModel);
+            await dbContext.SaveChangesAsync();
 
             var perioxhDto = new PerioxhDto
             {
@@ -96,10 +97,10 @@ namespace peripatoiCrud.API.Controllers
         //Επεξεργασια περιοχης
         [HttpPut]
         [Route("{id:Guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdatePerioxhRequestDto updatePerioxhRequestDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePerioxhRequestDto updatePerioxhRequestDto)
         {
             // αρχικα ψαχνουμε μεσω του db context εαν υπαρχει περιοχη με το id που μας περασε ο χρηστης
-            var perioxh = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
+            var perioxh = await dbContext.Perioxes.FirstOrDefaultAsync(x => x.Id == id);
 
 
             if (perioxh == null)
@@ -112,7 +113,7 @@ namespace peripatoiCrud.API.Controllers
             perioxh.Onoma = updatePerioxhRequestDto.Onoma;
             perioxh.EikonaUrl = updatePerioxhRequestDto?.EikonaUrl;
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             // τελος τα περναμε ολα στο dto και το στελνουμε πισω στον χρηστη με 200αρι
             var perioxhDto = new PerioxhDto
@@ -130,11 +131,11 @@ namespace peripatoiCrud.API.Controllers
         //Διαγραφη περιοχης
         [HttpDelete]
         [Route("{id:Guid}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             // με τον ιδιο ακριβως τροπου που υλοποιησαμε το update εγγραφης θα υλοποιηοσουμε και την διαγραφη
             // αρχικα ψαχνουμε μεσω του db context εαν υπαρχει περιοχη με το id που μας περασε ο χρηστης
-            var perioxh = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
+            var perioxh = await dbContext.Perioxes.FirstOrDefaultAsync(x => x.Id == id);
 
 
             if (perioxh == null)
@@ -143,7 +144,7 @@ namespace peripatoiCrud.API.Controllers
             }
 
             dbContext.Perioxes.Remove(perioxh);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             var perioxhDto = new PerioxhDto
             {
