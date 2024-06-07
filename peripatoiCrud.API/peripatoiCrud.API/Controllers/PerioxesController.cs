@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using peripatoiCrud.API.Data;
+using peripatoiCrud.API.Models.Domain;
+using peripatoiCrud.API.Models.DTOs;
 
 namespace peripatoiCrud.API.Controllers
 {
@@ -21,23 +23,47 @@ namespace peripatoiCrud.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var perioxes = dbContext.Perioxes.ToList();
-            return Ok(perioxes);
+            var perioxesDomain = dbContext.Perioxes.ToList();
+
+            var perioxesDto = new List<PerioxhDto>();
+            //εδω κανουμε το map απο μοντελο σε dto, η αλλαγη εγινε γιατι ειναι best practice να εμφανιζουμε τα δεδομενα απο το dto παρα κατευθειαν τα μοντελα
+            foreach (var perioxhDomain in perioxesDomain)
+            {
+                perioxesDto.Add(new PerioxhDto()
+                {
+                    Id = perioxhDomain.Id,
+                    Onoma = perioxhDomain.Onoma,
+                    Kwdikos = perioxhDomain.Kwdikos,
+                    EikonaUrl = perioxhDomain.EikonaUrl
+                });
+            }
+
+            return Ok(perioxesDto);
         }
+
         //https://localhost:7229/api/perioxes/{id}
         //Ληψη συγκεκριμενης περιοχης βαση του id της
         [HttpGet]
         [Route("{id:Guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var perioxh = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
+            var perioxhDomain = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
 
-            if (perioxh == null) //ελεγχος εαν υπαρχει στη βαση, στην περιπτωση που δεν υπαρχει επιστρεφουμε 404
+            if (perioxhDomain == null) //ελεγχος εαν υπαρχει στη βαση, στην περιπτωση που δεν υπαρχει επιστρεφουμε 404
             {
                 return NotFound();
             }
 
-            return Ok(perioxh);
+            //κανουμε εδω το μαπ και μετα επιστρεφουμε την περιοχη οπως στην get all
+            var perioxhDto = new PerioxhDto()
+            {
+                Id = perioxhDomain.Id,
+                Onoma = perioxhDomain.Onoma,
+                Kwdikos = perioxhDomain.Kwdikos,
+                EikonaUrl = perioxhDomain.EikonaUrl
+            };
+
+            return Ok(perioxhDto);
         }
     }
 }
