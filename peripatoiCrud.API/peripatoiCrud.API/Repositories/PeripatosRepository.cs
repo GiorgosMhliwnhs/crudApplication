@@ -34,9 +34,9 @@ namespace peripatoiCrud.API.Repositories
             return await dbContext.Peripatoi.Include(x=>x.Dyskolia).Include(x=>x.Perioxh).ToListAsync(); 
         }
 
-        public Task<Peripatos?> GetByIdAsync(Guid id)
+        public async Task<Peripatos?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await dbContext.Peripatoi.Include(x=>x.Dyskolia).Include(x => x.Perioxh).FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public Task<Peripatos?> UpdateAsync(Guid id, Peripatos peripatos)
