@@ -10,5 +10,8 @@
 
         public Guid DyskoliaId { get; set; }
         public Guid PerioxhId { get; set; }
+
+        public PerioxhDto Perioxh { get; set; }
+        public DyskoliaDto Dyskolia { get; set; }
     }
 }

@@ -17,6 +17,36 @@ namespace peripatoiCrud.API.Controllers
         {
             this.peripatosRepository = peripatosRepository;
         }
+
+        //https://localhost:7229/api/peripatoi
+        //Ληψη ολων των περιοχων
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var peripatoiDomain = await peripatosRepository.GetAllAsync();
+
+            var peripatoiDto = new List<PeripatosDto>();
+
+            foreach (var peripatosDomain in peripatoiDomain)
+            {
+                peripatoiDto.Add(new PeripatosDto()
+                {
+                    Id = peripatosDomain.Id,
+                    Onoma = peripatosDomain.Onoma,
+                    Perigrafh = peripatosDomain.Perigrafh,
+                    Mhkos = peripatosDomain.Mhkos,
+                    EikonaUrl = peripatosDomain.EikonaUrl,
+                    DyskoliaId = peripatosDomain.DyskoliaId,
+                    PerioxhId = peripatosDomain.PerioxhId,
+                    Perioxh = MapPerioxhToDto(peripatosDomain.Perioxh),
+                    Dyskolia = MapDyskoliaToDto(peripatosDomain.Dyskolia)
+                });
+            }
+
+            return Ok(peripatoiDto);
+        }
+
+        //https://localhost:7229/api/peripatoi
         //δημιουργια περιπατου
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddPeripatosRequestDto addPeripatosRequestDto)
@@ -45,6 +75,28 @@ namespace peripatoiCrud.API.Controllers
             };
 
             return Ok(peripatosDto);
+        }
+
+        //εαν υλοποιηθει σε επομενο sprint το work item #0019 θα διαγραφουν αυτες οι μεθοδοι για τα mappings
+        private PerioxhDto MapPerioxhToDto(Perioxh perioxh)
+        {
+            return new PerioxhDto
+            {
+                Id = perioxh.Id,
+                Onoma = perioxh.Onoma,
+                Kwdikos = perioxh.Kwdikos,
+                EikonaUrl = perioxh.EikonaUrl
+
+            };
+        }
+
+        private DyskoliaDto MapDyskoliaToDto(Dyskolia dyskolia)
+        {
+            return new DyskoliaDto
+            {
+                Id = dyskolia.Id,
+                Onoma = dyskolia.Onoma
+            };
         }
     }
 }
