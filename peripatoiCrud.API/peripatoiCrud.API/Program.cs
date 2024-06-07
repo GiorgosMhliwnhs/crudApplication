@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using peripatoiCrud.API.Data;
+using peripatoiCrud.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,10 @@ builder.Services.AddSwaggerGen();
 //εδω χρησιμοποιουμε dependency injection, περνοντας το dbcontext και υστερα παρεχουμε το connection string
 builder.Services.AddDbContext<PeripatoiDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("PeripatoiConnectionString")));
+
+//εδω συσχετιζουμε το interface με την υλοποιηση, η χρηση του repository pattern μας προσφερει επισης και την ελευθερια να αλλαξουμε εντελως την υλοποιηση εαν θελησουμε
+// για παραδειγμα στην περιπτωση μας εχουμε sql server αλλα θα μπορουσαμε να ειχαμε inMemory repository απλα αλλαζοντας την υλοποιηση παρακατω, και τιποοτα αλλο
+builder.Services.AddScoped<IPerioxhRepository, PerioxhRepository>(); 
 
 var app = builder.Build();
 
