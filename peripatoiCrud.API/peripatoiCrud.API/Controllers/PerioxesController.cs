@@ -65,5 +65,31 @@ namespace peripatoiCrud.API.Controllers
 
             return Ok(perioxhDto);
         }
+
+        //https://localhost:7229/api/perioxes/
+        //Δημιουργια περιοχης
+        [HttpPost]
+        public IActionResult Create([FromBody] AddPerioxhRequestDto addPerioxhRequestDto)
+        {
+            var perioxhDomainModel = new Perioxh
+            {
+                Kwdikos = addPerioxhRequestDto.Kwdikos,
+                Onoma = addPerioxhRequestDto.Onoma,
+                EikonaUrl = addPerioxhRequestDto.EikonaUrl
+            };
+
+            dbContext.Perioxes.Add(perioxhDomainModel);
+            dbContext.SaveChanges();
+
+            var perioxhDto = new PerioxhDto
+            {
+                Id = perioxhDomainModel.Id,
+                Onoma = perioxhDomainModel.Onoma,
+                Kwdikos = perioxhDomainModel.Kwdikos,
+                EikonaUrl = perioxhDomainModel.EikonaUrl
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = perioxhDomainModel.Id }, perioxhDto);
+        }
     }
 }
