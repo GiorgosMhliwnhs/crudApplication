@@ -125,5 +125,35 @@ namespace peripatoiCrud.API.Controllers
 
             return Ok (perioxhDto);
         }
+
+        //https://localhost:7229/api/perioxes/{id}
+        //Διαγραφη περιοχης
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            // με τον ιδιο ακριβως τροπου που υλοποιησαμε το update εγγραφης θα υλοποιηοσουμε και την διαγραφη
+            // αρχικα ψαχνουμε μεσω του db context εαν υπαρχει περιοχη με το id που μας περασε ο χρηστης
+            var perioxh = dbContext.Perioxes.FirstOrDefault(x => x.Id == id);
+
+
+            if (perioxh == null)
+            {
+                return NotFound(); // εαν το dbcontext επιστρεψει στην περιοχη null τοτε και εμεις επιστρεφουμε στον χρηστη not found
+            }
+
+            dbContext.Perioxes.Remove(perioxh);
+            dbContext.SaveChanges();
+
+            var perioxhDto = new PerioxhDto
+            {
+                Id = perioxh.Id,
+                Kwdikos = perioxh.Kwdikos,
+                Onoma = perioxh.Onoma,
+                EikonaUrl = perioxh.EikonaUrl
+            };
+
+            return Ok(perioxhDto);
+        }
     }
 }
