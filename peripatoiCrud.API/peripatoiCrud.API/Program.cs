@@ -17,7 +17,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("PeripatoiConnect
 
 //εδω συσχετιζουμε το interface με την υλοποιηση, η χρηση του repository pattern μας προσφερει επισης και την ελευθερια να αλλαξουμε εντελως την υλοποιηση εαν θελησουμε
 // για παραδειγμα στην περιπτωση μας εχουμε sql server αλλα θα μπορουσαμε να ειχαμε inMemory repository απλα αλλαζοντας την υλοποιηση παρακατω, και τιποοτα αλλο
-builder.Services.AddScoped<IPerioxhRepository, PerioxhRepository>(); 
+builder.Services.AddScoped<IPerioxhRepository, PerioxhRepository>();
+builder.Services.AddScoped<IPeripatosRepository, PeripatosRepository>();
 
 var app = builder.Build();
 
