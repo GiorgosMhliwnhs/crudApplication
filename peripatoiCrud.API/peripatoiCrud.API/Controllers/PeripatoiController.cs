@@ -107,6 +107,43 @@ namespace peripatoiCrud.API.Controllers
             return Ok(peripatosDto);
         }
 
+        //https://localhost:7229/api/peripatoi/{id}
+        //Επεξεργασια περιπατου
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePeripatosRequestDto updatePeripatosRequestDto)
+        {
+            var peripatosModel = new Peripatos
+            {
+                Onoma = updatePeripatosRequestDto.Onoma,
+                Perigrafh = updatePeripatosRequestDto.Perigrafh,
+                Mhkos = updatePeripatosRequestDto.Mhkos,
+                EikonaUrl = updatePeripatosRequestDto.EikonaUrl,
+                DyskoliaId = updatePeripatosRequestDto.DyskoliaId,
+                PerioxhId = updatePeripatosRequestDto.PerioxhId
+            };
+
+            peripatosModel = await peripatosRepository.UpdateAsync(id, peripatosModel);
+
+            if (peripatosModel == null)
+            {
+                return NotFound(); // 404
+            }
+
+            // 200
+            var peripatosDto = new PeripatosDto
+            {
+                Onoma = peripatosModel.Onoma,
+                Perigrafh = peripatosModel.Perigrafh,
+                Mhkos = peripatosModel.Mhkos,
+                EikonaUrl = peripatosModel.EikonaUrl,
+                DyskoliaId = peripatosModel.DyskoliaId,
+                PerioxhId = peripatosModel.PerioxhId
+            };
+
+            return Ok(peripatosDto);
+        }
+
         //εαν υλοποιηθει σε επομενο sprint το work item #0019 θα διαγραφουν αυτες οι μεθοδοι για τα mappings
         private PerioxhDto MapPerioxhToDto(Perioxh perioxh)
         {

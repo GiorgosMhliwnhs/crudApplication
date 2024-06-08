@@ -39,9 +39,24 @@ namespace peripatoiCrud.API.Repositories
             return await dbContext.Peripatoi.Include(x=>x.Dyskolia).Include(x => x.Perioxh).FirstOrDefaultAsync(x=>x.Id == id);
         }
 
-        public Task<Peripatos?> UpdateAsync(Guid id, Peripatos peripatos)
+        public async Task<Peripatos?> UpdateAsync(Guid id, Peripatos peripatos)
         {
-            throw new NotImplementedException();
+            var peripatosResult = await dbContext.Peripatoi.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (peripatosResult == null)
+            {
+                return null;
+            }
+
+            peripatosResult.Onoma = peripatos.Onoma;
+            peripatosResult.Perigrafh = peripatos.Perigrafh; 
+            peripatosResult.Mhkos = peripatos.Mhkos;
+            peripatosResult.EikonaUrl = peripatos.EikonaUrl;
+            peripatosResult.DyskoliaId = peripatos.DyskoliaId;
+            peripatosResult.PerioxhId = peripatos.PerioxhId;
+
+            await dbContext.SaveChangesAsync();
+            return peripatosResult;
         }
     }
 }
