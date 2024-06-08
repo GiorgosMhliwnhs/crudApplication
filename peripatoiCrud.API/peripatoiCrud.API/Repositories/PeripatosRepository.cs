@@ -22,9 +22,19 @@ namespace peripatoiCrud.API.Repositories
             return peripatos;
         }
 
-        public Task<Peripatos?> DeleteAsync(Guid id)
+        public async Task<Peripatos?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var peripatosResult = await dbContext.Peripatoi.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (peripatosResult == null)
+            {
+                return null;
+            }
+
+            dbContext.Peripatoi.Remove(peripatosResult);
+            await dbContext.SaveChangesAsync();
+
+            return peripatosResult;
         }
 
         public async Task<List<Peripatos>> GetAllAsync()
