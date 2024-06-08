@@ -51,6 +51,12 @@ namespace peripatoiCrud.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddPeripatosRequestDto addPeripatosRequestDto)
         {
+            // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var peripatos = new Peripatos()
             {
                 Onoma = addPeripatosRequestDto.Onoma,
@@ -113,6 +119,12 @@ namespace peripatoiCrud.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePeripatosRequestDto updatePeripatosRequestDto)
         {
+            // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var peripatosModel = new Peripatos
             {
                 Onoma = updatePeripatosRequestDto.Onoma,

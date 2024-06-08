@@ -76,6 +76,12 @@ namespace peripatoiCrud.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddPerioxhRequestDto addPerioxhRequestDto)
         {
+            // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var perioxhDomainModel = new Perioxh
             {
                 Kwdikos = addPerioxhRequestDto.Kwdikos,
@@ -102,6 +108,11 @@ namespace peripatoiCrud.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePerioxhRequestDto updatePerioxhRequestDto)
         {
+            // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             //πρωτα πρεπει να γινει map το dto σε μοντελο παλι
             var perioxhModel = new Perioxh
