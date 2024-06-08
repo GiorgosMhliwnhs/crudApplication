@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using peripatoiCrud.API.Models.Domain;
 using peripatoiCrud.API.Models.DTOs;
@@ -21,6 +22,7 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/peripatoi
         //Ληψη ολων των περιοχων
         [HttpGet]
+        [Authorize(Roles = "read")]
         public async Task<IActionResult> GetAll([FromQuery] string? filter, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery] bool afksousa, [FromQuery] int arithmosSelidwn = 1,[FromQuery] int megethosSelidas = 1000)
         {
             var peripatoiDomain = await peripatosRepository.GetAllAsync(filter, filterQuery, sortBy, afksousa, arithmosSelidwn, megethosSelidas);
@@ -49,6 +51,7 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/peripatoi
         //δημιουργια περιπατου
         [HttpPost]
+        [Authorize(Roles = "write")]
         public async Task<IActionResult> Create([FromBody] AddPeripatosRequestDto addPeripatosRequestDto)
         {
             // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
@@ -87,6 +90,7 @@ namespace peripatoiCrud.API.Controllers
         //Ληψη συγκεκριμένου περιπατου βαση του id του
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "read")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var peripatosDomain = await peripatosRepository.GetByIdAsync(id);
@@ -117,6 +121,7 @@ namespace peripatoiCrud.API.Controllers
         //Επεξεργασια περιπατου
         [HttpPut]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "write")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePeripatosRequestDto updatePeripatosRequestDto)
         {
             // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
@@ -160,6 +165,7 @@ namespace peripatoiCrud.API.Controllers
         //Διαγραφη περιπατου
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "write")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var peripatos = await peripatosRepository.DeleteAsync(id);
