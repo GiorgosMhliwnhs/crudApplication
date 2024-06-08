@@ -37,7 +37,7 @@ namespace peripatoiCrud.API.Repositories
             return peripatosResult;
         }
 
-        public async Task<List<Peripatos>> GetAllAsync(string? filter = null, string? filterQuery = null)
+        public async Task<List<Peripatos>> GetAllAsync(string? filter = null, string? filterQuery = null, string? sortBy = null, bool afksousa = true)
         {
             //εδω κανουμε χρηση του include απο το entity framewoek, το οποιο στην ουσια μας επιτρεπει να κανουμε get και τα 2 navigation properties
             //δυσκολια και περιοχη τα οποια εχουμε δηλωσει στην κλαση του περιπατου μεσω των id τα οποια εχουμε ορισει 
@@ -50,6 +50,21 @@ namespace peripatoiCrud.API.Repositories
                 if (filter.Equals("Onoma", StringComparison.OrdinalIgnoreCase))
                 {
                     peripatoi = peripatoi.Where(x => x.Onoma.Contains(filterQuery));
+                }
+            }
+
+            //Ταξινομηση -> ελεγχουμε οτι η παραμετρος ταξινομησης δεν ειναι αδεια, και εαν δεν ειναι ελεγχουμε την παραμετρο αυξουσας ταξινομησης
+            // και αναλογως καλουμε την orderby(ascending-αυξουσα) ή την orderbydescending(φθινουσα). Ελεγχουμε με την if εαν προκειται για ταξινομηση ονοματος ή μηκους
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy.Equals("Onoma", StringComparison.OrdinalIgnoreCase))// ταξινομηση κατα ονομα
+                {
+                    peripatoi = afksousa ? peripatoi.OrderBy(x => x.Onoma) : peripatoi.OrderByDescending(x => x.Onoma);
+                }
+                else if (sortBy.Equals("Mhkos", StringComparison.OrdinalIgnoreCase)) // ταξινομηση κατα μηκος
+                {
+                    peripatoi = afksousa ? peripatoi.OrderBy(x => x.Mhkos) : peripatoi.OrderByDescending(x => x.Mhkos);
+
                 }
             }
 

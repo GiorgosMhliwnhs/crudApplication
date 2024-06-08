@@ -1,4 +1,5 @@
-﻿using peripatoiCrud.API.Models.Domain;
+﻿using Microsoft.AspNetCore.Mvc;
+using peripatoiCrud.API.Models.Domain;
 
 namespace peripatoiCrud.API.Repositories
 {
@@ -6,7 +7,7 @@ namespace peripatoiCrud.API.Repositories
     {
         Task<Peripatos> CreateAsync(Peripatos peripatos);
 
-        Task<List<Peripatos>> GetAllAsync(string? filter=null, string? filterQuery = null);
+        Task<List<Peripatos>> GetAllAsync(string? filter=null, string? filterQuery = null, string? sortBy = null, bool afksousa = true);
 
         Task<Peripatos?> GetByIdAsync(Guid id);
 
