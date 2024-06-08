@@ -26,7 +26,7 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/perioxes
         //Ληψη ολων των περιοχων
         [HttpGet]
-        [Authorize(Roles = "read")]
+        //[Authorize(Roles = "read")]
         public async Task<IActionResult> GetAll()
         {
             var perioxesDomain = await perioxhRepository.GetAllAsync();
@@ -52,7 +52,7 @@ namespace peripatoiCrud.API.Controllers
         //Ληψη συγκεκριμενης περιοχης βαση του id της
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "read")]
+        //[Authorize(Roles = "read")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var perioxhDomain = await perioxhRepository.GetByIdAsync(id);
@@ -77,7 +77,7 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/perioxes/
         //Δημιουργια περιοχης
         [HttpPost]
-        [Authorize(Roles = "write")]
+        //[Authorize(Roles = "write")]
         public async Task<IActionResult> Create([FromBody] AddPerioxhRequestDto addPerioxhRequestDto)
         {
             // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
@@ -110,7 +110,7 @@ namespace peripatoiCrud.API.Controllers
         //Επεξεργασια περιοχης
         [HttpPut]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "write")]
+        //[Authorize(Roles = "write")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePerioxhRequestDto updatePerioxhRequestDto)
         {
             // εδω ελεγχουμε τα validations και εαν παραβιαζονται θα επιστρεφει 400 με το μηνυμα σφαλματος που αρμοζει
@@ -151,7 +151,7 @@ namespace peripatoiCrud.API.Controllers
         //Διαγραφη περιοχης
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "write")]
+        //[Authorize(Roles = "write")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             // με τον ιδιο ακριβως τροπου που υλοποιησαμε το update εγγραφης θα υλοποιηοσουμε και την διαγραφη

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Peripatoi.UI.Models.DTOs.PerioxhDto>
+
+@{
+}
+
+<h1 class="mt-3"Περιοχές</h1>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Κωδικός</th>
+            <th>Όνομα</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var peripatos in Model)
+    {
+        <tr>
+            <td>@peripatos.Id</td>
+            <td>@peripatos.Kwdikos</td>
+            <td>@peripatos.Onoma</td>
+        </tr>
+    }
+    </tbody>
+</table>
