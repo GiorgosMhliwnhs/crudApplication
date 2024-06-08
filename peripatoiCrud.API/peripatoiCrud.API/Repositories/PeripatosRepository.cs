@@ -37,7 +37,7 @@ namespace peripatoiCrud.API.Repositories
             return peripatosResult;
         }
 
-        public async Task<List<Peripatos>> GetAllAsync(string? filter = null, string? filterQuery = null, string? sortBy = null, bool afksousa = true)
+        public async Task<List<Peripatos>> GetAllAsync(string? filter = null, string? filterQuery = null, string? sortBy = null, bool afksousa = true, int arithmosSelidwn = 1, int megethosSelidas = 1000)
         {
             //εδω κανουμε χρηση του include απο το entity framewoek, το οποιο στην ουσια μας επιτρεπει να κανουμε get και τα 2 navigation properties
             //δυσκολια και περιοχη τα οποια εχουμε δηλωσει στην κλαση του περιπατου μεσω των id τα οποια εχουμε ορισει 
@@ -68,7 +68,11 @@ namespace peripatoiCrud.API.Repositories
                 }
             }
 
-            return await peripatoi.ToListAsync();
+            //pagination -> υπολογιζουμε τον αριθμο αποτελεσματων που θα προσπεραστει πολλαπλασιαζοντας τον αριθμο σελιδων με τα αποτελεσματα που μπορει να εχει
+            // το καθε page. Στην περιπτωση που η σελιδα ειναι μονο 1 τοτε μηδενιζεται η πραξη και δεν γινεται προσπεραση, ανταυτου ερχονται ολα τα δεδομενα.
+            var apotelesmataGiaProsperash = (arithmosSelidwn - 1) * megethosSelidas;
+
+            return await peripatoi.Skip(apotelesmataGiaProsperash).Take(megethosSelidas).ToListAsync();
         }
 
         public async Task<Peripatos?> GetByIdAsync(Guid id)
