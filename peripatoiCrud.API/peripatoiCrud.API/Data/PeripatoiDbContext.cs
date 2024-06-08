@@ -5,7 +5,7 @@ namespace peripatoiCrud.API.Data
 {
     public class PeripatoiDbContext : DbContext
     {
-        public PeripatoiDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public PeripatoiDbContext(DbContextOptions<PeripatoiDbContext> dbContextOptions) : base(dbContextOptions)
         {
             
         }

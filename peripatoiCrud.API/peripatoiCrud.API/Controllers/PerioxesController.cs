@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using peripatoiCrud.API.Data;
 using peripatoiCrud.API.Models.Domain;
@@ -9,6 +10,7 @@ namespace peripatoiCrud.API.Controllers
 {
     [Route("api/perioxes")]
     [ApiController]
+    [Authorize]
     public class PerioxesController : ControllerBase
     {
         private readonly PeripatoiDbContext dbContext;
