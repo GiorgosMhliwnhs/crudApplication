@@ -6,7 +6,7 @@ namespace peripatoiCrud.API.Repositories
     {
         Task<Peripatos> CreateAsync(Peripatos peripatos);
 
-        Task<List<Peripatos>> GetAllAsync();
+        Task<List<Peripatos>> GetAllAsync(string? filter=null, string? filterQuery = null);
 
         Task<Peripatos?> GetByIdAsync(Guid id);
 

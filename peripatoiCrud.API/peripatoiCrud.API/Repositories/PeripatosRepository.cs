@@ -37,11 +37,23 @@ namespace peripatoiCrud.API.Repositories
             return peripatosResult;
         }
 
-        public async Task<List<Peripatos>> GetAllAsync()
+        public async Task<List<Peripatos>> GetAllAsync(string? filter = null, string? filterQuery = null)
         {
             //εδω κανουμε χρηση του include απο το entity framewoek, το οποιο στην ουσια μας επιτρεπει να κανουμε get και τα 2 navigation properties
-            //δυσκολια και περιοχη τα οποια εχουμε δηλωσει στην κλαση του περιπατου μεσω των id τα οποια εχουμε ορισει
-            return await dbContext.Peripatoi.Include(x=>x.Dyskolia).Include(x=>x.Perioxh).ToListAsync(); 
+            //δυσκολια και περιοχη τα οποια εχουμε δηλωσει στην κλαση του περιπατου μεσω των id τα οποια εχουμε ορισει 
+            var peripatoi = dbContext.Peripatoi.Include(x => x.Dyskolia).Include(x => x.Perioxh).AsQueryable();
+            
+            //φιλτραρισμα -> ελεγχουμε οτι οι παραμετροι δεν ειναι αδειοι, και μετα ελεγχουμε εαν ο χρηστης χρησιμοποιησε φιλτρα για ονομα περιπατου
+            // στην οποια περιπτωη επιστρεφουμε στο queryable ολες τις περιπτωσεις που περιεχουν το string που παρειχε ο χρηστης
+            if (!string.IsNullOrWhiteSpace(filter) && !string.IsNullOrWhiteSpace(filterQuery))
+            {
+                if (filter.Equals("Onoma", StringComparison.OrdinalIgnoreCase))
+                {
+                    peripatoi = peripatoi.Where(x => x.Onoma.Contains(filterQuery));
+                }
+            }
+
+            return await peripatoi.ToListAsync();
         }
 
         public async Task<Peripatos?> GetByIdAsync(Guid id)

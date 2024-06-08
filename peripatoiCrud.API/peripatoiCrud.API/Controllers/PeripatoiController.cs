@@ -21,9 +21,9 @@ namespace peripatoiCrud.API.Controllers
         //https://localhost:7229/api/peripatoi
         //Ληψη ολων των περιοχων
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? filter, [FromQuery] string? filterQuery)
         {
-            var peripatoiDomain = await peripatosRepository.GetAllAsync();
+            var peripatoiDomain = await peripatosRepository.GetAllAsync(filter, filterQuery);
 
             var peripatoiDto = new List<PeripatosDto>();
 
