@@ -1,41 +1,60 @@
 ﻿@model Peripatoi.UI.Models.DTOs.PerioxhDto
 
 @{
+    ViewData["Title"] = "Επεξεργασία περιοχής";
 }
 
-<h1 class="mt-3">Επεξεργασία περιοχής</h1>
+<h1 class="mt-4 mb-3 text-primary">Επεξεργασία περιοχής</h1>
 
 @if (Model is not null)
 {
-    <form method="post">
-
-        <div class="mt-3">
+    <form method="post" class="bg-light p-4 rounded shadow-sm">
+        <div class="mb-3">
             <label class="form-label">Id</label>
-            <input type="text" class="form-control" asp-for="Id" readonly/>
+            <input type="text" class="form-control" asp-for="Id" readonly />
         </div>
 
-        <div class="mt-3">
+        <div class="mb-3">
             <label class="form-label">Κωδικός</label>
             <input type="text" class="form-control" asp-for="Kwdikos" />
         </div>
 
-        <div class="mt-3">
+        <div class="mb-3">
             <label class="form-label">Όνομα</label>
             <input type="text" class="form-control" asp-for="Onoma" />
         </div>
 
-        <div class="mt-3">
+        <div class="mb-3">
             <label class="form-label">Σύνδεσμος Εικόνας</label>
             <input type="text" class="form-control" asp-for="EikonaUrl" />
         </div>
 
-        <div class="mt-3">
+        <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">Αποθήκευση Αλλαγών</button>
-        </div>
-
-        <div class="mt-3 d-flex justify-content-between">
             <button type="submit" asp-controller="Perioxes" asp-action="Diagrafh" class="btn btn-danger">Οριστική Διαγραφή Περιοχής</button>
         </div>
-
     </form>
 }
+
+<style>
+    h1 {
+        font-family: 'Arial', sans-serif;
+        font-size: 2.5rem;
+    }
+
+    .btn-primary, .btn-danger {
+        font-size: 1rem;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: .25rem;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    }
+</style>
