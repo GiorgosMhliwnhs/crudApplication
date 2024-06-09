@@ -23,7 +23,7 @@ namespace peripatoiCrud.API.Controllers
         //Ληψη ολων των περιοχων
         [HttpGet]
         //[Authorize(Roles = "read")]
-        public async Task<IActionResult> GetAll([FromQuery] string? filter, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery] bool afksousa, [FromQuery] int arithmosSelidwn = 1,[FromQuery] int megethosSelidas = 1000)
+        public async Task<IActionResult> GetAll([FromQuery] string? filter, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery] bool afksousa, [FromQuery] int arithmosSelidwn = 1, [FromQuery] int megethosSelidas = 1000)
         {
             var peripatoiDomain = await peripatosRepository.GetAllAsync(filter, filterQuery, sortBy, afksousa, arithmosSelidwn, megethosSelidas);
 
@@ -40,13 +40,14 @@ namespace peripatoiCrud.API.Controllers
                     EikonaUrl = peripatosDomain.EikonaUrl,
                     DyskoliaId = peripatosDomain.DyskoliaId,
                     PerioxhId = peripatosDomain.PerioxhId,
-                    Perioxh = MapPerioxhToDto(peripatosDomain.Perioxh),
-                    Dyskolia = MapDyskoliaToDto(peripatosDomain.Dyskolia)
+                    Perioxh = peripatosDomain.Perioxh != null ? MapPerioxhToDto(peripatosDomain.Perioxh) : null,
+                    Dyskolia = peripatosDomain.Dyskolia != null ? MapDyskoliaToDto(peripatosDomain.Dyskolia) : null
                 });
             }
 
             return Ok(peripatoiDto);
         }
+
 
         //https://localhost:7229/api/peripatoi
         //δημιουργια περιπατου
@@ -110,12 +111,13 @@ namespace peripatoiCrud.API.Controllers
                 EikonaUrl = peripatosDomain.EikonaUrl,
                 DyskoliaId = peripatosDomain.DyskoliaId,
                 PerioxhId = peripatosDomain.PerioxhId,
-                Perioxh = MapPerioxhToDto(peripatosDomain.Perioxh),
-                Dyskolia = MapDyskoliaToDto(peripatosDomain.Dyskolia)
+                Perioxh = peripatosDomain.Perioxh != null ? MapPerioxhToDto(peripatosDomain.Perioxh) : null,
+                Dyskolia = peripatosDomain.Dyskolia != null ? MapDyskoliaToDto(peripatosDomain.Dyskolia) : null
             };
 
             return Ok(peripatosDto);
         }
+
 
         //https://localhost:7229/api/peripatoi/{id}
         //Επεξεργασια περιπατου
@@ -132,6 +134,7 @@ namespace peripatoiCrud.API.Controllers
 
             var peripatosModel = new Peripatos
             {
+                Id = id, // Ensure the Id is set correctly
                 Onoma = updatePeripatosRequestDto.Onoma,
                 Perigrafh = updatePeripatosRequestDto.Perigrafh,
                 Mhkos = updatePeripatosRequestDto.Mhkos,
@@ -150,6 +153,7 @@ namespace peripatoiCrud.API.Controllers
             // 200
             var peripatosDto = new PeripatosDto
             {
+                Id = peripatosModel.Id, // Ensure the Id is set correctly
                 Onoma = peripatosModel.Onoma,
                 Perigrafh = peripatosModel.Perigrafh,
                 Mhkos = peripatosModel.Mhkos,
@@ -160,6 +164,7 @@ namespace peripatoiCrud.API.Controllers
 
             return Ok(peripatosDto);
         }
+
 
         //https://localhost:7229/api/peripatoi/{id}
         //Διαγραφη περιπατου

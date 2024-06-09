@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "peripatoiCrud.API", "peripatoiCrud.API\peripatoiCrud.API.csproj", "{C43C8F61-F176-4DA2-AA5E-38806D653118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peripatoi.UI", "Peripatoi.UI\Peripatoi.UI.csproj", "{54085911-90D1-4DB9-A9F6-C90314988033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peripatoi.UI", "Peripatoi.UI\Peripatoi.UI.csproj", "{54085911-90D1-4DB9-A9F6-C90314988033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{BAAC08E6-B1B0-472E-A3EB-885D9CFDF935}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{54085911-90D1-4DB9-A9F6-C90314988033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54085911-90D1-4DB9-A9F6-C90314988033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54085911-90D1-4DB9-A9F6-C90314988033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAAC08E6-B1B0-472E-A3EB-885D9CFDF935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAC08E6-B1B0-472E-A3EB-885D9CFDF935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAC08E6-B1B0-472E-A3EB-885D9CFDF935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAC08E6-B1B0-472E-A3EB-885D9CFDF935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
