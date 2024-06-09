@@ -16,16 +16,20 @@
             <th>Id</th>
             <th>Κωδικός</th>
             <th>Όνομα</th>
+            <th> </th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var peripatos in Model)
+        @foreach (var perioxh in Model)
     {
         <tr>
-            <td>@peripatos.Id</td>
-            <td>@peripatos.Kwdikos</td>
-            <td>@peripatos.Onoma</td>
+                <td>@perioxh.Id</td>
+                <td>@perioxh.Kwdikos</td>
+                <td>@perioxh.Onoma</td>
+            <td>
+                    <a asp-controller="Perioxes" asp-action="Epeksergasia" asp-route-id="@perioxh.Id" class=" btn btn-light"> Επεξεργασία </a>
+            </td>
         </tr>
     }
     </tbody>

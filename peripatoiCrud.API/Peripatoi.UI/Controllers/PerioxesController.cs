@@ -64,5 +64,45 @@ namespace Peripatoi.UI.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Epeksergasia(Guid id) //Επιστρεφει συγκεκριμενη περιοχη βαση του id, η post γινεται παρακατω
+        {
+            var client = httpClientFactory.CreateClient();
+
+            var response = await client.GetFromJsonAsync<PerioxhDto>($"https://localhost:7229/api/perioxes/{id.ToString()}");
+
+            if (response != null)
+            {
+                return View(response);
+            }
+
+            return View(null);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Epeksergasia(PerioxhDto request)
+        {
+            var client = httpClientFactory.CreateClient();
+            var httpRequestMessage = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"https://localhost:7229/api/perioxes/{request.Id}"),
+                Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json")
+            };
+
+            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
+
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            var response = await httpResponseMessage.Content.ReadFromJsonAsync<PerioxhDto>();
+
+            if (response != null)
+            {
+                return RedirectToAction("Index", "Perioxes");
+            }
+
+            return View();
+        }
     }
 }
