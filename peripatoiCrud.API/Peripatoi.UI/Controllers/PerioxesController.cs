@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Peripatoi.UI.Models;
 using Peripatoi.UI.Models.DTOs;
+using System.Text;
+using System.Text.Json;
 
 namespace Peripatoi.UI.Controllers
 {
@@ -11,6 +14,8 @@ namespace Peripatoi.UI.Controllers
         {
             this.httpClientFactory = httpClientFactory;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             List<PerioxhDto> response = new List<PerioxhDto>();
@@ -29,5 +34,35 @@ namespace Peripatoi.UI.Controllers
             return View(response);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Prosthiki()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Prosthiki(ProsthikiPerioxhsViewModel viewModel)
+        {
+            var client = httpClientFactory.CreateClient();
+            var httpRequestMessage = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("https://localhost:7229/api/perioxes"),
+                Content = new StringContent(JsonSerializer.Serialize(viewModel), Encoding.UTF8, "application/json")
+            };
+
+            var httpResponse = await client.SendAsync(httpRequestMessage);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var response = await httpResponse.Content.ReadFromJsonAsync<PerioxhDto>();
+
+            if (response != null)
+            {
+                return RedirectToAction("Index", "Perioxes");
+            }
+
+            return View();
+        }
     }
 }
