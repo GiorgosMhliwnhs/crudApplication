@@ -1,10 +1,10 @@
 ﻿@model ProsthikiPeripatouViewModel
 
 @{
-    ViewData["Title"] = "Προσθήκη Περιπάτου";
+    ViewData["Title"] = "Επεξεργασία Περιπάτου";
 }
 
-<h1 class="mt-4 mb-3 text-primary">Προσθήκη Περιπάτου</h1>
+<h1 class="mt-4 mb-3 text-primary">Επεξεργασία Περιπάτου</h1>
 
 <form method="post" class="bg-light p-4 rounded shadow-sm">
     <div class="mb-3">
@@ -37,8 +37,9 @@
         <select class="form-control" asp-for="PerioxhId" asp-items="Model.Perioxes"></select>
     </div>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">Αποθήκευση Περιπάτου</button>
+        <button type="submit" asp-controller="Peripatoi" asp-action="Diagrafh" asp-route-id="@Model.Id" class="btn btn-danger">Οριστική Διαγραφή Περιοχής</button>
     </div>
 </form>
 
