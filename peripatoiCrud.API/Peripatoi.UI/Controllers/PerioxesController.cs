@@ -104,5 +104,26 @@ namespace Peripatoi.UI.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Diagrafh(PerioxhDto request)
+        {
+            try
+            {
+                var client = httpClientFactory.CreateClient();
+
+                var httpResponseMessage = await client.DeleteAsync($"https://localhost:7229/api/perioxes/{request.Id}");
+
+                httpResponseMessage.EnsureSuccessStatusCode();
+
+                return RedirectToAction("Index", "Perioxes");
+            }
+            catch (Exception ex)
+            {
+                //μηνυμα σφαλματος
+            }
+
+            return View();
+        }
     }
 }
