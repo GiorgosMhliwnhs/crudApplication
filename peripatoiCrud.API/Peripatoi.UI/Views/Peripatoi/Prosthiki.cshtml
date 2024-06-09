@@ -1,0 +1,39 @@
+﻿@model ProsthikiPeripatouViewModel
+
+<h1 class="mt-3">Προσθήκη Περιπάτου</h1>
+
+<form method="post">
+    <div class="mt-3">
+        <label class="form-label">Όνομα</label>
+        <input type="text" class="form-control" asp-for="Onoma" />
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Περιγραφή</label>
+        <input type="text" class="form-control" asp-for="Perigrafh" />
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Μήκος</label>
+        <input type="number" class="form-control" asp-for="Mhkos" />
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Σύνδεσμος Εικόνας</label>
+        <input type="text" class="form-control" asp-for="EikonaUrl" />
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Δυσκολία</label>
+        <select class="form-control" asp-for="DyskoliaId" asp-items="Model.Dyskolies"></select>
+    </div>
+
+    <div class="mt-3">
+        <label class="form-label">Περιοχή</label>
+        <select class="form-control" asp-for="PerioxhId" asp-items="Model.Perioxes"></select>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Αποθήκευση Περιοχής</button>
+    </div>
+</form>

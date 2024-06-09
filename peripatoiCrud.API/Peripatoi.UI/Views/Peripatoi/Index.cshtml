@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Peripatoi.UI.Models.DTOs.PeripatosDto>
+
+@{
+}
+
+<h1 class="mt-3" Περίπατοι</h1>
+
+<div class="d-flex justify-content-end">
+    <a class="btn btn-secondary" asp-controller="Peripatoi" asp-action="Prosthiki"> Προσθήκη νέου περιπάτου </a>
+</div>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Όνομα</th>
+            <th>Περιγραφή</th>
+            <th>Μήκος</th>
+            <th>Σύνδεσμος Εικόνας</th>
+            <th> </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var peripatos in Model)
+        {
+            <tr>
+                <td>@peripatos.Id</td>
+                <td>@peripatos.Onoma</td>
+                <td>@peripatos.Perigrafh</td>
+                <td>@peripatos.Mhkos</td>
+                <td>@peripatos.EikonaUrl</td>
+                <td>
+                    <a asp-controller="Peripatoi" asp-action="Epeksergasia" asp-route-id="@peripatos.Id" class=" btn btn-light"> Επεξεργασία </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
